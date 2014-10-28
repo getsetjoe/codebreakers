@@ -1,0 +1,58 @@
+/* Overlay style */
+.overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(153,204,51,0.9);
+  font-size: 2em;
+}
+
+.overlay-lose {
+  background: #f03636;
+}
+
+/* Menu style */
+.overlay .message {
+	text-align: center;
+	position: relative;
+	top: 50%;
+	height: 60%;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+/* Overlay closing cross */
+.overlay .overlay-close {
+	width: 50px;
+	height: 50px;
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	overflow: hidden;
+	border: none;
+	background: url(../img/cross.png) no-repeat center center;
+	text-indent: 200%;
+	color: transparent;
+	outline: none;
+	z-index: 100;
+  cursor: pointer;
+}
+
+/* Effects */
+.overlay-simplegenie {
+	visibility: hidden;
+	-webkit-transform: translateY(60%) scale(0);
+	transform: translateY(60%) scale(0);
+	-webkit-transition: -webkit-transform 0.4s, visibility 0s 0.4s;
+	transition: transform 0.4s, visibility 0s 0.4s;
+}
+
+.overlay-simplegenie.open {
+	visibility: visible;
+	-webkit-transform: translateY(0%) scale(1);
+	transform: translateY(0%) scale(1);
+	-webkit-transition: -webkit-transform 0.4s;
+	transition: transform 0.4s;
+}
