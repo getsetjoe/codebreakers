@@ -63,6 +63,9 @@ io.on('connection', function (socket) {
         attempts: socket.attempts
       });
       console.log(socket.username + " wins!");
+      console.log("=== new game ===");
+      codebreak.generate();
+      console.log(codebreak.code);
     }
   });
   
@@ -72,7 +75,7 @@ io.on('connection', function (socket) {
       code: codebreak.code.join("")
     });
     console.log(socket.username + " loses.");
-  })
+  });
   
 });
 
