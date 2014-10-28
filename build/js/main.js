@@ -3,7 +3,7 @@ var inputs = [];
 var attempt = 1;
 
 //var socket = io('http://192.168.1.12');
-var socket = io('http://localhost');
+var socket = io();
 
 $(function() {
   FastClick.attach(document.body);
