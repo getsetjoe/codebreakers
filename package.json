@@ -4,7 +4,7 @@
   "description": "A multiplayer numbers guessing game, based on the 1970s boardgame Master Mind.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "Joe Chung",
   "license": "MIT",
@@ -14,5 +14,12 @@
   },
   "devDependencies": {
     "prompt": "^0.2.14"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/legojoe/codebreakers"
   }
 }
