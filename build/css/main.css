@@ -6,8 +6,9 @@ html, body {
   height: 100%;
   margin: 0;
   background: #2980b9;
-  font-family: "Roboto", sans-serif;
   color: #fff;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.0em;
 }
 
 #container {
@@ -16,7 +17,7 @@ html, body {
   /*display: flex;
   flex-direction: column;*/
   margin: 0 auto;
-  padding: 1em;
+  padding: 0.5em;
 }
 
 .row {
@@ -61,16 +62,28 @@ html, body {
 }
 
 .theirs {
-  display: none;
+  max-width: 1em;
+  border-bottom: none !important;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  opacity: 0.8;
 }
 
 .slot {
   width: 0.6em;
   height: 0.6em;
-  margin: 5px;
+  margin: 0.15em;
   border: 2px solid #ccc;
-  border-radius: 10px;
+  border-radius: 999px;
   transition: background ease 0.5s;
+}
+
+.theirs > .slot {
+  width: 0.4em;
+  height: 0.4em;
+  margin: 0;
+  border: 1px solid rgba(185, 185, 185, 0.53);
+  border-radius: 0;
 }
 
 #username {

@@ -1,6 +1,7 @@
 var username = "";
 var inputs = [];
 var attempt = 1;
+var opponentAttempt = 1;
 
 //var socket = io('http://192.168.1.12');
 var socket = io();
@@ -96,19 +97,23 @@ function makeGuess(guess) {
 function clearInputs() {
   inputs = [];
 }
-  
-socket.on('reply', function (res) {
+
+function fillSlots(res, index, container) {
   var counter = 0;
 
   for (var i = 0; i < res[0]; i++) {
     counter++;
-    $(".row:nth-child(" + attempt + ") > .mine > .slot:nth-child(" + counter + ")").css("background", "#333");
+    $(".row:nth-child(" + index + ") > " + container + " > .slot:nth-child(" + counter + ")").css("background", "#333");
   }
 
   for (i = 0; i < res[1]; i++) {
     counter++;
-    $(".row:nth-child(" + attempt + ") > .mine > .slot:nth-child(" + counter + ")").css("background", "#FFF");
+    $(".row:nth-child(" + index + ") > " + container + " > .slot:nth-child(" + counter + ")").css("background", "#FFF");
   }
+}
+  
+socket.on('reply', function (res) {
+  fillSlots(res, attempt, ".mine");
   
   if (attempt === 10) {
     socket.emit("lose", username);
@@ -119,6 +124,10 @@ socket.on('reply', function (res) {
   $(".row").removeClass("current");
   $(".row:nth-child(" + attempt + ")").addClass("current");
   clearInputs();
+});
+
+socket.on('opponent-guess', function (res) {
+  fillSlots(res, opponentAttempt++, ".theirs");
 });
 
 socket.on('win', function (data) {

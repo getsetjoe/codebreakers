@@ -55,6 +55,7 @@ io.on('connection', function (socket) {
     var res = codebreak.evaluate(val);
     socket.emit('reply', res);
     socket.attempts++;
+    socket.broadcast.emit('opponent-guess', res);
     
     if (res.join() == "4,0") {
       io.emit('win', {
