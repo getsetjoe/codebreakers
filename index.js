@@ -33,8 +33,7 @@ var io = require('socket.io')(server);
 var path = require('path');
 
 codebreak.start();
-console.log("\nWelcome to Code Breakers!");
-console.log("=========================\n");
+console.log("=== Welcome to Code Breakers ===");
 console.log(codebreak.code);
 
 app.use(express.static(path.join(__dirname, 'build')));
