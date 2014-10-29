@@ -1,5 +1,6 @@
 var username = "";
 var inputs = [];
+var currIndex = 0;
 var attempt = 1;
 var opponentAttempt = 1;
 
@@ -21,8 +22,13 @@ window.addEventListener("keypress", function (e) {
   if (e.which === 13 && inputs.length === 4) {
     // Enter pressed
     makeGuess(inputs.join(""));
-  } else {
-    addNum(String.fromCharCode(e.which));
+  } else if (username && inputs.length < 4) {
+    var num = Number(String.fromCharCode(e.which));
+    if (inputs.indexOf(num) == -1) {
+      addNum(num, currIndex);
+      $(".row:nth-child(" + attempt + ") > .cell:nth-child(" + (currIndex+1) + ")").text(num);
+      currIndex++;
+    }
   }
 });
 
@@ -32,6 +38,7 @@ window.addEventListener("keydown", function (e) {
     // Backspace pressed
     e.preventDefault();
     deleteNum();
+    currIndex--;
   }
 });
 
@@ -44,16 +51,19 @@ $(".cell").not(".mine, .theirs")
   .on("click", function () {
     if ($(this).parent().hasClass("current") == false) return;
     
-    if ($(this).text == "") {
-      $(this).text(1);
-    } else if ($(this).text() == "9") {
-      $(this).text(0);
+    var num = Number($(this).text());  
+    if (!num) {
+      num = 1
+    } else if (num == 9) {
+      num = 0;
     } else {
-      $(this).text(Number($(this).text()) + 1);
+      num++;
     }
+    currIndex = $(this).index();
+    addNum(num, currIndex++);
+    $(this).text(num);
   
     /*var data = $(this).data();
-  
     if ($(this).hasClass("selected")) {
       data.index++;
       if (data.index == data.nums.length) data.index = 0;
@@ -61,28 +71,20 @@ $(".cell").not(".mine, .theirs")
     } else {
       if (prevNum) data.nums.splice(data.nums.indexOf(prevNum), 1);
     }
-    
     var num = data.nums[data.index];
     $(this).text(num).addClass("selected");
     prevNum = num;
-    
     $(this).data(data);*/
   });
 
 $(".mine").on("click", function () {
   if ($(this).parent().hasClass("current") == false) return;
-  $(".current").children().each(function () {
-    addNum($(this).text());
-  });
   makeGuess(inputs.join(""));
 });
 
-function addNum(num) {
-  if ($.isNumeric(num) == false) return;
-  if (inputs.length === 4) return;
-  if (inputs.indexOf(num) != -1) return;
-  inputs.push(num);
-  $(".row:nth-child(" + attempt + ") > .cell:nth-child(" + inputs.length + ")").text(num);
+function addNum(num, index) {
+  if ($.isNumeric(num) == false) return;  
+  inputs[index] = num;
 }
 
 function deleteNum() {
@@ -92,6 +94,7 @@ function deleteNum() {
 
 function makeGuess(guess) {
   socket.emit('guess', guess);
+  currIndex = 0;
 }
 
 function clearInputs() {
