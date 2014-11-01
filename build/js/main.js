@@ -172,3 +172,7 @@ socket.on('lose', function (data) {
     toggleOverlay(".overlay-win");
   }
 });
+
+socket.on('disconnect', function (data) {
+  toggleOverlay(".overlay-disconnect");
+});

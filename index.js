@@ -80,6 +80,10 @@ io.on('connection', function (socket) {
     console.log(socket.username + " loses.");
   });
   
+  socket.on('disconnect', function () {
+    console.log('a user disconnected');
+  });
+  
 });
 
 server.listen(port, function () {
