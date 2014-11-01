@@ -2,9 +2,7 @@ var username = "";
 var inputs = [];
 var currIndex = 0;
 var attempt = 1;
-var opponentAttempt = 1;
 
-//var socket = io('http://192.168.1.12');
 var socket = io();
 
 $(function() {
@@ -26,7 +24,7 @@ window.addEventListener("keypress", function (e) {
     var num = Number(String.fromCharCode(e.which));
     if (inputs.indexOf(num) == -1) {
       addNum(num, currIndex);
-      $(".row:nth-child(" + attempt + ") > .cell:nth-child(" + (currIndex+1) + ")").text(num);
+      $(".row:nth-child(" + (attempt+1) + ") > .cell:nth-child(" + (currIndex+1) + ")").text(num);
       currIndex++;
     }
   }
@@ -88,7 +86,7 @@ function addNum(num, index) {
 }
 
 function deleteNum() {
-  $(".row:nth-child(" + attempt + ") > .cell:nth-child(" + inputs.length + ")").text("");
+  $(".row:nth-child(" + (attempt+1) + ") > .cell:nth-child(" + inputs.length + ")").text("");
   inputs.pop();
 }
 
@@ -114,23 +112,32 @@ function fillSlots(res, index, container) {
     $(".row:nth-child(" + index + ") > " + container + " > .slot:nth-child(" + counter + ")").css("background", "#FFF");
   }
 }
-  
+
+function addTheirSlots(name) {
+  $(".row").append('<div class="cell theirs ' + name.toLowerCase() + '"><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div></div>');
+  $(".headings").append('<div class="cell theirs ' + name.toLowerCase() + '"><span class="name">' + name.substr(0, 1) + '</span></div>');
+}
+
 socket.on('reply', function (res) {
-  fillSlots(res, attempt, ".mine");
+  fillSlots(res, attempt+1, ".mine");
   
-  if (attempt === 10) {
+  if (res.join() != "4,0" && attempt === 10) {
     socket.emit("lose", username);
     return;
   }
   
   attempt++;
   $(".row").removeClass("current");
-  $(".row:nth-child(" + attempt + ")").addClass("current");
+  $(".row:nth-child(" + (attempt+1) + ")").addClass("current");
   clearInputs();
 });
 
-socket.on('opponent-guess', function (res) {
-  fillSlots(res, opponentAttempt++, ".theirs");
+socket.on('join', function (name) {
+  addTheirSlots(name);
+});
+
+socket.on('opponent-guess', function (res, name, attempts) {
+  fillSlots(res, attempts+1, "." + name.toLowerCase());
 });
 
 socket.on('win', function (data) {

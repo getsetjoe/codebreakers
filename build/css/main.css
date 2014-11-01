@@ -12,19 +12,34 @@ html, body {
 }
 
 #container {
-  max-width: 540px;
   height: 100%;
-  /*display: flex;
-  flex-direction: column;*/
+  -webkit-display: flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
   margin: 0 auto;
   padding: 0.5em;
 }
 
-.row {
-  height: 5.5em;
+.row, .headings {
+  min-height: 5em;
+  max-height: 5.5em;
+  -webkit-flex-grow: 1;
+  flex-grow: 1;
   display: -webkit-flex;
   display: flex;
+  -webkit-justify-content: center;
+  justify-content: center;
   transition: background ease 1s;
+}
+
+.headings {
+  min-height: 2em;
+  max-height: 2em;
+}
+.name {
+  font-size: 0.55em;
+  text-transform: uppercase;
 }
 
 .row.current .cell {
@@ -36,15 +51,14 @@ html, body {
 
 .cell {
   display: -webkit-flex;
-  -webkit-flex-grow: 1;
-  -webkit-align-items: center;
-  -webkit-justify-content: center;
   display: flex;
+  -webkit-flex-grow: 1;
   flex-grow: 1;
+  -webkit-align-items: center;
   align-items: center;
+  -webkit-justify-content: center;
   justify-content: center;
-  min-width: 50px;
-  min-height: 50px;
+  max-width: 3em;
   margin: 0.25em;  
   font-size: 2em;
   cursor: default;
@@ -52,21 +66,22 @@ html, body {
 }
 
 .mine, .theirs {
-  display: -webkit-flex;
-  display: flex;
   max-width: 2.5em;
   -webkit-flex-wrap: wrap;
-  -webkit-justify-content: space-around;
   flex-wrap: wrap;
+  -webkit-justify-content: space-around;
   justify-content: space-around;
 }
 
 .theirs {
   max-width: 1em;
+  margin-left: 0;
+  margin-right: 0;
   border-bottom: none !important;
   -webkit-flex-direction: column;
   flex-direction: column;
-  opacity: 0.8;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
 }
 
 .slot {
@@ -104,19 +119,7 @@ html, body {
     font-size: 0.8em;
   }
   
-  #container {
-    width: 100%; 
-  }
-  
-  .row {
-    height: 60px;
-  }
-  .cell {
-    min-width: 30px;
-    min-height: 30px;
-  }
-  
   #username {
-    width: 100%;
+    width: 90%;
   }
 }

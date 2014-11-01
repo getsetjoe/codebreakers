@@ -48,6 +48,7 @@ io.on('connection', function (socket) {
   socket.on('start', function(val){
     socket.username = val;
     socket.attempts = 0;
+    socket.broadcast.emit('join', socket.username);
     console.log(socket.username + " has joined the game");
   });
   
@@ -55,7 +56,8 @@ io.on('connection', function (socket) {
     var res = codebreak.evaluate(val);
     socket.emit('reply', res);
     socket.attempts++;
-    socket.broadcast.emit('opponent-guess', res);
+    socket.broadcast.emit('opponent-guess', res, socket.username, socket.attempts);
+    console.log(socket.username + " guessed " + val);
     
     if (res.join() == "4,0") {
       io.emit('win', {
