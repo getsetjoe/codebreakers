@@ -137,6 +137,9 @@ socket.on('join', function (name) {
 });
 
 socket.on('opponent-guess', function (res, name, attempts) {
+  if ($("." + name.toLowerCase()).length === 0) {
+    addTheirSlots(name);
+  }
   fillSlots(res, attempts+1, "." + name.toLowerCase());
 });
 
