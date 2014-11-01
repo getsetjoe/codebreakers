@@ -22,7 +22,7 @@ window.addEventListener("keypress", function (e) {
     makeGuess(inputs.join(""));
   } else if (username && inputs.length < 4) {
     var num = Number(String.fromCharCode(e.which));
-    if (inputs.indexOf(num) == -1) {
+    if (inputs.indexOf(num) == -1 && isNaN(num) == false) {
       addNum(num, currIndex);
       $(".row:nth-child(" + (attempt+1) + ") > .cell:nth-child(" + (currIndex+1) + ")").text(num);
       currIndex++;
@@ -40,7 +40,6 @@ window.addEventListener("keydown", function (e) {
   }
 });
 
-var prevNum;
 $(".cell").not(".mine, .theirs")
   .data({
     nums: ["1","2","3","4","5","6","7","8","9","0"],
@@ -51,32 +50,27 @@ $(".cell").not(".mine, .theirs")
     
     var num = Number($(this).text());  
     if (!num) {
-      num = 1
-    } else if (num == 9) {
-      num = 0;
+      num = nextAvailNum(0);
     } else {
-      num++;
+      num = nextAvailNum(num);
     }
     currIndex = $(this).index();
     addNum(num, currIndex++);
     $(this).text(num);
-  
-    /*var data = $(this).data();
-    if ($(this).hasClass("selected")) {
-      data.index++;
-      if (data.index == data.nums.length) data.index = 0;
-      $(".cell").removeClass("selected");
-    } else {
-      if (prevNum) data.nums.splice(data.nums.indexOf(prevNum), 1);
-    }
-    var num = data.nums[data.index];
-    $(this).text(num).addClass("selected");
-    prevNum = num;
-    $(this).data(data);*/
   });
+
+function nextAvailNum(num) {
+  num++;
+  if (num === 10) num = 0;
+  if (inputs.indexOf(num) != -1) {
+    return nextAvailNum(num);
+  }
+  return num;
+}
 
 $(".mine").on("click", function () {
   if ($(this).parent().hasClass("current") == false) return;
+  if (inputs.length != 4) return;
   makeGuess(inputs.join(""));
 });
 

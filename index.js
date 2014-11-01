@@ -29,7 +29,7 @@ var express = require('express');
 var app = require('express')();
 var server = require('http').createServer(app);
 var port = process.env.PORT || 3000;
-var io = require('socket.io')(server);
+var io = require('socket.io')(server, {'heartbeat timeout': 60});
 var path = require('path');
 
 codebreak.start();
@@ -43,7 +43,7 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function (socket) {
-  console.log('a user connected');
+  console.log('Client ' + socket.id + ' connected');
   
   socket.on('start', function(val){
     socket.username = val;
@@ -81,7 +81,7 @@ io.on('connection', function (socket) {
   });
   
   socket.on('disconnect', function () {
-    console.log('a user disconnected');
+    console.log('Client ' + socket.id + ' disconnected');
   });
   
 });
