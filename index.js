@@ -46,7 +46,7 @@ io.on('connection', function (socket) {
   console.log('Client ' + socket.id + ' connected');
   
   socket.on('start', function(val){
-    socket.username = val;
+    socket.username = val.replace(/[^a-zA-Z0-9]/, "");
     socket.attempts = 0;
     socket.broadcast.emit('join', socket.username);
     console.log(socket.username + " has joined the game");
