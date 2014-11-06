@@ -11,7 +11,7 @@ $(function() {
 
 window.addEventListener("keypress", function (e) {
   if (e.which === 13 && !username) {
-    username = String($("#username").val()).replace(/[^a-zA-Z0-9]/, "");
+    username = String($("#username").val()).replace(/[^a-zA-Z0-9]/g, "");
     toggleOverlay(".overlay-start");
     socket.emit('start', username);
     return;
